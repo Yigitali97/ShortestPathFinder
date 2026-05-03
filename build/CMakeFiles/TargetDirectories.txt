@@ -1,3 +1,0 @@
-/Users/yigitali/Documents/ShortestPathFinder/build/CMakeFiles/ShortestPathFinder.dir
-/Users/yigitali/Documents/ShortestPathFinder/build/CMakeFiles/edit_cache.dir
-/Users/yigitali/Documents/ShortestPathFinder/build/CMakeFiles/rebuild_cache.dir
