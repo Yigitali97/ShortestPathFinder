@@ -10,7 +10,7 @@ public:
         : m_win(win), m_font(font),
           m_title   (font, "Shortest Path Finder", 54),
           m_subtitle(font, "Dijkstra's Algorithm  --  Interactive Visualization", 21),
-          m_author  (font, "Developed by: Yigit Ali Toshboev", 17),
+          m_author  (font, "Developed by: Yigit Ali Toshboev, Abdulloh Kamoliddinov, Feruzbek Pirmatov", 17),
           m_course  (font, "Data Structures & Algorithms  |  2026", 15),
           m_loading (font, "Loading...", 13)
     {
