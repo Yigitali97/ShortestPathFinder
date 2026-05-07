@@ -69,15 +69,15 @@ void GraphCanvas::handleEvent(const sf::Event& ev, AppState& state) {
                 addEdge(m_edgeFirst, m_edgeSecond, w);
                 m_edgeFirst = m_edgeSecond = -1;
                 m_weightStr.clear();
-                m_mode = EditMode::NONE;
+                m_mode = EditMode::ADD_EDGE;
                 state  = AppState::GRAPH_EDIT;
-                m_statusMsg = "Edge added successfully.";
+                m_statusMsg = "Edge added. Click first node for next edge.";
             } else if (c == 27) {
                 m_edgeFirst = m_edgeSecond = -1;
                 m_weightStr.clear();
-                m_mode = EditMode::NONE;
+                m_mode = EditMode::ADD_EDGE;
                 state  = AppState::GRAPH_EDIT;
-                m_statusMsg = "Edge creation cancelled.";
+                m_statusMsg = "Edge creation cancelled. Click first node to try again.";
             } else if (c >= '0' && c <= '9' && m_weightStr.size() < 5) {
                 m_weightStr += static_cast<char>(c);
             }
@@ -205,8 +205,26 @@ void GraphCanvas::handleEvent(const sf::Event& ev, AppState& state) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void GraphCanvas::handleToolbarClick(const std::string& id, AppState& state) {
-    if      (id == "addnode") { m_mode = EditMode::ADD_NODE; m_statusMsg = "Add Node: click canvas."; }
-    else if (id == "addedge") { m_mode = EditMode::ADD_EDGE; m_edgeFirst=-1; m_statusMsg = "Add Edge: click first node."; }
+    if      (id == "addnode") {
+        if (m_mode == EditMode::ADD_NODE) {
+            m_mode = EditMode::NONE;
+            m_statusMsg = "Add Node mode disabled.";
+        } else {
+            m_mode = EditMode::ADD_NODE;
+            m_statusMsg = "Add Node: click canvas.";
+        }
+    }
+    else if (id == "addedge") {
+        if (m_mode == EditMode::ADD_EDGE) {
+            m_mode = EditMode::NONE;
+            m_edgeFirst = -1;
+            m_statusMsg = "Add Edge mode disabled.";
+        } else {
+            m_mode = EditMode::ADD_EDGE;
+            m_edgeFirst = -1;
+            m_statusMsg = "Add Edge: click first node.";
+        }
+    }
     else if (id == "start")   { m_mode = EditMode::SELECT_START; m_statusMsg = "Click a node to set as START."; }
     else if (id == "end")     { m_mode = EditMode::SELECT_END;   m_statusMsg = "Click a node to set as END."; }
     else if (id == "run") {
@@ -327,7 +345,8 @@ void GraphCanvas::render(AppState& state) {
     drawToolbar(state);
     drawStatusBar(state);
     if (state == AppState::WEIGHT_INPUT) drawWeightDialog();
-    if ((state == AppState::SHOW_RESULT || state == AppState::GRAPH_EDIT) && !m_path.empty())
+    if (state == AppState::SHOW_RESULT ||
+        ((state == AppState::GRAPH_EDIT || state == AppState::SHOW_RESULT) && !m_path.empty()))
         drawResultBanner();
     if (state == AppState::EXIT_CONFIRM) drawExitDialog(state);
 }
