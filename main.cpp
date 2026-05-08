@@ -32,9 +32,9 @@ static bool loadFont() {
 
 int main() {
     sf::RenderWindow window(
-        sf::VideoMode({1280u, 800u}),
+        sf::VideoMode::getDesktopMode(),
         "Shortest Path Finder -- Dijkstra's Algorithm",
-        sf::Style::Close | sf::Style::Titlebar
+        sf::State::Fullscreen
     );
     window.setFramerateLimit(60);
 

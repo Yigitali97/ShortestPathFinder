@@ -45,7 +45,9 @@ private:
     std::vector<Btn> m_buttons;
     bool m_buttonsBuilt = false;
 
-    std::string m_statusMsg = "Welcome! Choose a tool or press a hotkey.";
+    bool        m_directed   = false;    // false = undirected, true = directed
+    std::string m_statusMsg  = "Welcome! Choose a tool or press a hotkey.";
+    std::string m_weightError;          // shown in red inside the weight dialog
 
     int  nodeAt(float x, float y) const;
     bool inCanvas(float x, float y) const;
@@ -53,11 +55,13 @@ private:
     void addNode(float x, float y);
     void addEdge(int u, int v, int w);
     void resetGraph();
+    void loadSample(int n);             // pre-load sample graph 1 / 2 / 3
     void runDijkstra();
     void buildPath(const std::vector<int>& parent, int dst);
     void handleToolbarClick(const std::string& id, AppState& state);
 
     void drawEdgeLine(sf::Vector2f a, sf::Vector2f b, float thick, sf::Color col);
+    void drawArrowhead(sf::Vector2f from, sf::Vector2f to, sf::Color col, float thick);
     void drawEdgeWeight(sf::Vector2f mid, int w, bool highlight);
     void drawNode(const GraphNode& n, sf::Color fill, sf::Color outline, int distVal);
     void drawToolbar(AppState state);
